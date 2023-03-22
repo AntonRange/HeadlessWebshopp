@@ -28,13 +28,16 @@ fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages")
                 WoocommerceShop()
             } else if (menuItem.innerText === "Latest News") {
                 news()
+            } else if (menuItem.innerText === "Home") {
+                console.log("reeee")
+                landingPage()
             }
             else {
                 content.innerHTML = page.content.rendered;
             } 
             
-            console.log(page.link)
-            console.log(page.title.rendered)
+            console.log(page)
+            
         })
         header.appendChild(menuItem)
     });
@@ -127,6 +130,19 @@ function news() {
                 newsdiv.classList.add("newsPost")
                 newsdiv.innerHTML = `<h2>${post.title.rendered}</h2>${post.content.rendered}`
                 content.appendChild(newsdiv)
+            });
+        })
+}
+function landingPage() {
+    fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages")
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(page => {
+                if (page.slug === "home") {
+                    content.innerHTML = page.content.rendered;
+                    // content.style.backgroundImage = "url('http://s3.amazonaws.com/yomzansi.com/wp-content/uploads/2020/03/01164806/best-sneaker-photos-of-the-week2-copy1.png')";
+                }
+                    
             });
         })
 }
