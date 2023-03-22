@@ -43,3 +43,6 @@
 li {
     list-style-type: none;
 }
+.newsPost {
+    text-align: center;
+}

@@ -4,11 +4,12 @@ let content = document.querySelector("#content");
 let header = document.querySelector("#header");
 
 
-fetch("http://localhost:8888/test/wp-json/wp/v2/pages") 
+fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages") 
 .then(res => res.json())
 .then(data => {
-    console.log("posts", data);
+    console.log("pages", data);
 })
+
 
 // tar alla pages som finns o skapar en slaks meny!!
   fetch('http://157.230.107.76/index.php/wp-json/wp/v2/pages')
@@ -16,17 +17,21 @@ fetch("http://localhost:8888/test/wp-json/wp/v2/pages")
   .then(pages => {
 
     pages.forEach(page => {
+        console.log(page.slug)
         let menuItem = document.createElement("button")
         menuItem.classList.add("MenuButton")
         menuItem.innerText = page.title.rendered
-        menuItem.setAttribute("href", page.link)
+        // menuItem.setAttribute("href", page.link)
         menuItem.addEventListener("click", function() {
             content.innerHTML = '';
             if (menuItem.innerText === "Shop") {
                 WoocommerceShop()
-            } else {
-                content.innerHTML = page.content.rendered;
+            } else if (menuItem.innerText === "Latest News") {
+                news()
             }
+            else {
+                content.innerHTML = page.content.rendered;
+            } 
             
             console.log(page.link)
             console.log(page.title.rendered)
@@ -41,7 +46,7 @@ fetch("http://localhost:8888/test/wp-json/wp/v2/pages")
   ]
 
 
-
+//--------------------------------Anton--------------------------------//
 function WoocommerceShop() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
   fetch("http://157.230.107.76/index.php/wp-json/wc/store/products")
@@ -80,7 +85,7 @@ function WoocommerceShop() {
             }
 
             if (existingShoeIndex > -1) {
-                cart[existingShoeIndex].quantity += 1; // Update quantity if shoe already 
+                cart[existingShoeIndex].quantity += 1; 
             }   
             else {
                 let addshoe = {
@@ -108,6 +113,24 @@ function WoocommerceShop() {
     }
 }
 
+
+
+function news() {
+    fetch("http://157.230.107.76/index.php/wp-json/wp/v2/posts")
+        .then(res => res.json())
+        .then(data => {
+            console.log("posts", data);
+
+            data.forEach(post => {
+
+                const newsdiv = document.createElement("div");
+                newsdiv.classList.add("newsPost")
+                newsdiv.innerHTML = `<h2>${post.title.rendered}</h2>${post.content.rendered}`
+                content.appendChild(newsdiv)
+            });
+        })
+}
+//--------------------------------Anton--------------------------------//
   
 function postOrder() {
     console.log("Skicka order");
