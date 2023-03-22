@@ -2,3 +2,30 @@
     display: block;
 }
 /* hej */
+
+/* produkt */
+.productImg {
+    width: 18vw;
+}
+.shopDiv ul {
+    display: flex;
+    flex-flow: row wrap;
+}
+.shopDiv ul li {
+    text-align: center;
+}
+.shopDiv ul button {
+    width: 15vw;
+}
+.product {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 18vw;
+    height: 20vh;
+    margin-right: 50px;
+}
+li {
+    list-style-type: none;
+}

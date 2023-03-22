@@ -49,13 +49,18 @@ function WoocommerceShop() {
   })
   
   function printProductList(products) {
+    let shopDiv = document.createElement("div");
+    shopDiv.classList.add("shopDiv")
       let ul = document.createElement("ul")
       
       products.map(product => {
         let newBtn = document.createElement("button");
         
           let li = document.createElement("li")
-          li.innerHTML = `${product.name} <br> 
+          li.classList.add("product")
+          li.innerHTML = ` <img class="productImg" src="${product.images[0].src}">
+          
+          <br> ${product.name} <br> 
           ${product.prices.price} ${product.prices.currency_code}`;
           newBtn.innerText = `Buy now!`
           
@@ -82,19 +87,17 @@ function WoocommerceShop() {
           })
           
 
-          
+        
         ul.appendChild(li)
-        ul.appendChild(newBtn)
+        li.appendChild(newBtn)
       })
       const sendorderBtn = document.createElement("button");
       sendorderBtn.innerText = "Send"
-      
-      content.appendChild(ul)
+      shopDiv.appendChild(ul)
+      content.appendChild(shopDiv)
       content.appendChild(sendorderBtn)
       sendorderBtn.addEventListener("click", postOrder)
-      sendorderBtn.addEventListener("click", () => {
-
-      })
+      
     }
 }
 
