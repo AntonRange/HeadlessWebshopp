@@ -40,7 +40,10 @@ fetch("http://localhost:8888/test/wp-json/wp/v2/pages")
 
   ]
 
+
+
 function WoocommerceShop() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
   fetch("http://157.230.107.76/index.php/wp-json/wc/store/products")
   .then(res => res.json())
   .then(data => {
@@ -65,11 +68,14 @@ function WoocommerceShop() {
           newBtn.innerText = `Buy now!`
           
           newBtn.addEventListener("click", () => {
+            
             let existingShoeIndex = -1;
             for (let i = 0; i < cart.length; i++) {
                 if (cart[i].product_id === product.id) {
                     existingShoeIndex = i;
+                    console.log(cart)
                     break;
+                    
                 }
             }
 
@@ -84,6 +90,7 @@ function WoocommerceShop() {
                 cart.push(addshoe)
                 console.log(cart)
             }
+            localStorage.setItem("cart", JSON.stringify(cart));
           })
           
 
