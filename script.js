@@ -27,16 +27,20 @@ fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages")
             if (menuItem.innerText === "Shop") {
                 WoocommerceShop()
             } else if (menuItem.innerText === "Latest News") {
+              console.log(cart)
                 news()
             } else if (menuItem.innerText === "Home") {
                 console.log("reeee")
-                landingPage()
+                homeTest()
             }
+           else if (menuItem.innerText === "Cart") {
+            printTheCart()
+        }
             else {
                 content.innerHTML = page.content.rendered;
             } 
             
-            console.log(page)
+          
             
         })
         header.appendChild(menuItem)
@@ -49,9 +53,71 @@ fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages")
   ]
 
 
+  //--------------------------------Andre--------------------------------//
+  function printTheCart() {
+    let totalPrice = 0;
+  
+    if (cart.length === 0) {
+      content.innerHTML = "<h1>Your cart is empty.</h1>";
+    } else {
+      content.innerHTML = "<h1>These are the products in your cart:</h1>";
+  
+      for (let i = 0; i < cart.length; i++) {
+        let productName = cart[i].product_name;
+        let productQuantity = cart[i].quantity;
+        let productPrice = cart[i].price;
+        let productCurrency = cart[i].price_currency;
+        let productImage = cart[i].product_images;
+        let productString = `<img src="${productImage}" width="100" height="100"> ${productQuantity} pair/s | ${productName}: ${productPrice} ${productCurrency} each`;
+        
+        content.innerHTML += productString + "<br>";
+        
+  
+        totalPrice += productPrice * productQuantity;
+      }
+  
+      content.innerHTML += `<br><h2>Total price: ${totalPrice} ${cart[0].price_currency}</h2>`;
+  
+      let clearBtn = document.createElement("button");
+      clearBtn.innerText = "Clear Cart";
+      content.appendChild(clearBtn);
+  
+      clearBtn.addEventListener("click", () => {
+        cart = [];
+        content.innerHTML = "<h1>Your cart is empty.</h1>";
+      });
+      const sendorderBtn = document.createElement("button");
+      sendorderBtn.innerText = "Send"
+      content.appendChild(sendorderBtn)
+      sendorderBtn.addEventListener("click", postOrder)
+    }
+  }
+
+
+
+// function homeTest() {
+//     fetch("http://157.230.107.76/index.php/wp-json/wp/v2/pages?slug=home")
+//       .then(res => res.json())
+//       .then(data => {
+//         const homepage = data[0];
+//         content.innerHTML = homepage.content.rendered;
+//         content.style.backgroundPosition = "50% 50%";
+//         content.style.backgroundSize = "cover";
+//         content.style.height = "100vh";
+//       });
+//   }
+  
+
+
+    //--------------------------------Slut Andre--------------------------------//
+
+  
+  
+  
+
 //--------------------------------Anton--------------------------------//
 function WoocommerceShop() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
   fetch("http://157.230.107.76/index.php/wp-json/wc/store/products")
   .then(res => res.json())
   .then(data => {
@@ -76,12 +142,12 @@ function WoocommerceShop() {
           newBtn.innerText = `Buy now!`
           
           newBtn.addEventListener("click", () => {
+          console.log(cart)
             
             let existingShoeIndex = -1;
             for (let i = 0; i < cart.length; i++) {
                 if (cart[i].product_id === product.id) {
                     existingShoeIndex = i;
-                    console.log(cart)
                     break;
                     
                 }
@@ -93,12 +159,16 @@ function WoocommerceShop() {
             else {
                 let addshoe = {
                 product_id: product.id,
-                quantity: 1
+                quantity: 1,
+                product_name: product.name,
+                price: product.prices.price,
+                price_currency: product.prices.currency_code,
+                product_images: product.images[0].src,
                 }
                 cart.push(addshoe)
-                console.log(cart)
+               
             }
-            localStorage.setItem("cart", JSON.stringify(cart));
+   
           })
           
 
@@ -106,12 +176,10 @@ function WoocommerceShop() {
         ul.appendChild(li)
         li.appendChild(newBtn)
       })
-      const sendorderBtn = document.createElement("button");
-      sendorderBtn.innerText = "Send"
+
       shopDiv.appendChild(ul)
       content.appendChild(shopDiv)
-      content.appendChild(sendorderBtn)
-      sendorderBtn.addEventListener("click", postOrder)
+
       
     }
 }
@@ -140,12 +208,15 @@ function landingPage() {
             data.forEach(page => {
                 if (page.slug === "home") {
                     content.innerHTML = page.content.rendered;
-                    // content.style.backgroundImage = "url('http://s3.amazonaws.com/yomzansi.com/wp-content/uploads/2020/03/01164806/best-sneaker-photos-of-the-week2-copy1.png')";
+                   
                 }
                     
             });
         })
 }
+
+
+
 //--------------------------------Anton--------------------------------//
   
 function postOrder() {
@@ -201,9 +272,6 @@ function postOrder() {
     .then(res => res.json())
     .then(data => {
         console.log("Order skickad", data);
-        localStorage.setItem("cart", JSON.stringify([]));
-        printCart();
     })
     .catch(err => console.log("err", err));
 }
-
