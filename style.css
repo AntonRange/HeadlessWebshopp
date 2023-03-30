@@ -46,3 +46,99 @@ li {
 .newsPost {
     text-align: center;
 }
+
+.wp-block-cover__image-background {
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+}
+.IMG_paragraph {
+    font-size: 40px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.shopButton {
+    font-size: 30px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: grey;
+    text-decoration: none;
+    width: 120px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    color: white;
+}
+.shopButton:hover {
+    background-color: #136bd7
+}
+a {
+    color: white;
+}
+#header {
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    background-color: #13d7ca;
+    border-bottom: 2px solid black;
+    
+}
+#headerH1 {
+    color: black;
+    padding-left: 5vw;
+}
+
+.headerMenuItem {
+    border-radius: 20px;
+    background-color: grey;
+    margin-top: 30px;
+    margin-right: 40px;
+    height: 60%;
+    color: white;
+}
+/* headerEnd */
+
+/* footer */
+
+#footer {
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    background-color: #13d7ca;
+    border-bottom: 2px solid black;
+    height: 70px;
+    gap: 35px;
+    
+}
+
+.footerMenuItem {
+    border-radius: 20px;
+    background-color: grey;
+    margin-right: 40px;
+    height: 25px;
+    color: white;
+}
+
+/* Max gillar snopp */
+
+.categoryMenu {
+    display: flex;
+    justify-content: center;
+}
+.categoryMenu button {
+    margin-top: 20px;
+    margin-right: 20px;
+    border-radius: 20px;
+    background-color: grey;
+    margin-right: 40px;
+    height: 25px;
+    color: white;
+}
